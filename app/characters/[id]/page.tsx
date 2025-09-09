@@ -1,3 +1,4 @@
+/* eslint-disable  @typescript-eslint/no-explicit-any */
 "use client";
 import data from "@/app/data.json";
 import Image from "next/image";
@@ -7,8 +8,8 @@ import { avatarIconToGacha } from "@/lib/utils";
 
 export default function CharacterPage() {
   const params = useParams();
-  const id = (params as any)?.id;
-  const [fetchData, setFetchData] = useState<any | null>(null);
+  const id = params?.id;
+  const [fetchData, setFetchData] = useState(null);
 
   useEffect(() => {
     if (!id) return;
@@ -29,12 +30,12 @@ export default function CharacterPage() {
   }, [id]);
 
   const getElementName = (element: string) => {
-    return (data.data.elements as any)[element] || element;
+    return data.data.elements[element] || element;
   };
 
   // Helper function to get proper weapon type name
   const getWeaponTypeName = (weaponType: string) => {
-    return (data.data.types as any)[weaponType] || weaponType;
+    return data.data.types[weaponType] || weaponType;
   };
 
   // Build badge classes for element badges using literal Tailwind classes
