@@ -51,9 +51,9 @@ export default function Home() {
   };
 
   return (
-    <div className=" ">
-      <div className="w-full max-w-5xl p-2 m-auto ">
-        <h2 className="text-2xl font-bold my-5">Characters</h2>
+    <div className=" p-1">
+      <div className="w-full max-w-5xl  m-auto ">
+        <h2 className="text-2xl font-bold my-2 mb-5">Characters</h2>
         <div className="w-full grid grid-cols-4 max-md:grid-cols-2 gap-2 ">
           {[...Object.values(data.data.items)].reverse().map((item: any) => (
             <Link key={item.id} href={`/characters/${item.id}`}>

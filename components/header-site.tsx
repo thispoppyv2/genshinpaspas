@@ -8,7 +8,7 @@ export default function HeaderSite() {
     <Link
       href="/"
       className={`transition-all
-       w-full duration-500 p-5 z-10 bg-background/80 backdrop-blur-xl py-5 items-center gap-2.5 flex  gap-2`}
+       w-full duration-500 max-md:px-2 px-5  z-10 bg-background/80 backdrop-blur-xl pt-5 items-center flex  gap-2`}
     >
       <Image
         src="/static/images/logo.webp"
@@ -19,7 +19,7 @@ export default function HeaderSite() {
       />
       <div className="flex flex-row justify-between w-full">
         <div className="flex flex-col justify-center">
-          <h1 className="text-4xl font-bold ">Genshin Impact</h1>
+          <h1 className="text-4xl max-md:text-xl font-bold ">Genshin Impact</h1>
           <p className="text-muted-foreground">mabilisang code keme keme</p>
         </div>
         <div>Made by Secret</div>
