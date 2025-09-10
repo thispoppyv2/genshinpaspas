@@ -146,7 +146,7 @@ export default function CharacterPage() {
         priority={true}
       />
 
-      <div className="max-w-5xl bg-card/75 backdrop-blur-md rounded-2xl backdrop-saturate-250 p-5 transition-all duration-1000  m-auto w-full starting:mt-0 -mt-[33 svh]  ">
+      <div className="max-w-5xl bg-card/75 backdrop-blur-md rounded-2xl backdrop-saturate-250 p-5 transition-all duration-1000  m-auto w-full starting:mt-0 -mt-[33svh] max-md:-mt-[60svh]">
         <div className="flex flex-col  items-center justify-center gap-1 p-5">
           <Image
             src={`https://gi.yatta.moe/assets/UI/${character.icon}.png`}
