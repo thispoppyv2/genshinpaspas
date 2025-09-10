@@ -1,14 +1,14 @@
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 "use client";
-import { Card, CardContent } from "@/components/ui/card";
-import data from "./data.json";
-import Image from "next/image";
-import Link from "next/link";
-
-// Mapping from element to its full Tailwind CSS background class
+import data from "@/app/data.json";
+import InfiniteMenu from "@/components/InfiniteMenu";
+import { useIsMobile } from "@/hooks/use-mobile";
+import CharactersPage from "./characters/page";
 
 export default function Home() {
-  // Helper function to get proper element name
+  const isMobile = useIsMobile();
+
+  if (isMobile) return CharactersPage();
   const getElementName = (element: string) => {
     return (data.data.elements as any)[element] || element;
   };
@@ -23,71 +23,66 @@ export default function Home() {
   const elementBadgeClass = (element: string) => {
     switch (element) {
       case "Pyro":
-        return "transition-all px-2 py-0.5 rounded-full text-xs font-medium bg-red-500 text-white";
+        return "transition-all px-2 py-0.5 rounded-full text-lg font-medium bg-red-500 text-white";
       case "Hydro":
-        return "transition-all px-2 py-0.5 rounded-full text-xs font-medium bg-blue-500 text-white";
+        return "transition-all px-2 py-0.5 rounded-full text-lg font-medium bg-blue-500 text-white";
       case "Electro":
-        return "transition-all px-2 py-0.5 rounded-full text-xs font-medium bg-purple-500 text-white";
+        return "transition-all px-2 py-0.5 rounded-full text-lg font-medium bg-purple-500 text-white";
       case "Cryo":
-        return "transition-all px-2 py-0.5 rounded-full text-xs font-medium bg-cyan-400 text-white";
+        return "transition-all px-2 py-0.5 rounded-full text-lg font-medium bg-cyan-400 text-white";
       case "Anemo":
-        return "transition-all px-2 py-0.5 rounded-full text-xs font-medium bg-cyan-500 text-white";
+        return "transition-all px-2 py-0.5 rounded-full text-lg font-medium bg-cyan-500 text-white";
       case "Geo":
-        return "transition-all px-2 py-0.5 rounded-full text-xs font-medium bg-yellow-500 text-white";
+        return "transition-all px-2 py-0.5 rounded-full text-lg font-medium bg-yellow-500 text-white";
       case "Dendro":
-        return "transition-all px-2 py-0.5 rounded-full text-xs font-medium bg-green-500 text-white";
+        return "transition-all px-2 py-0.5 rounded-full text-lg font-medium bg-green-500 text-white";
       default:
-        return "transition-all px-2 py-0.5 rounded-full text-xs font-medium bg-gray-600 text-white";
+        return "transition-all px-2 py-0.5 rounded-full text-lg font-medium bg-gray-600 text-white";
     }
   };
 
-  // Rank badge classes: 5 stars = gold, 4 stars = purple, otherwise gray
   const rankBadgeClass = (rank: number) => {
     if (rank === 5)
-      return "px-2 py-0.5 rounded-full text-sm font-medium bg-yellow-400 text-yellow-900";
+      return "px-2 py-0.5 rounded-full text-lg font-medium bg-yellow-400 text-yellow-900";
     if (rank === 4)
-      return "px-2 py-0.5 rounded-full text-sm font-medium bg-purple-500 text-white";
-    return "px-2 py-0.5 rounded-full text-sm font-medium bg-gray-600 text-white";
+      return "px-2 py-0.5 rounded-full text-lg font-medium bg-purple-500 text-white";
+    return "px-2 py-0.5 rounded-full text-lg   font-medium bg-gray-600 text-white";
   };
 
   return (
-    <div className=" p-1">
-      <div className="w-full max-w-5xl  m-auto ">
-        <h2 className="text-2xl font-bold my-2 mb-5">Characters</h2>
-        <div className="w-full grid grid-cols-4 max-md:grid-cols-2 gap-2 ">
-          {[...Object.values(data.data.items)].reverse().map((item: any) => (
-            <Link key={item.id} href={`/characters/${item.id}`}>
-              <Card
-                // Use the mapping object to get the correct class name
-                // The default 'bg-gray-500' is a fallback if the element isn't in our map
-                className={`border-b starting:scale-110 duration-1000 bg-gray-900  rounded hover:scale-95 hover:outline outline-white  z-auto hover:duration-100 transform-gpu transition-all`}
-              >
-                <CardContent className="flex  justify-center p-1 items-center flex-col">
-                  <Image
-                    src={`https://gi.yatta.moe/assets/UI/${item.icon}.png`}
-                    alt={item.name}
-                    width={100}
-                    height={100}
-                  />
-                  <div className="text-sm text-muted-foreground flex flex-row gap-2 mt-2 items-center">
-                    <span
-                      className={elementBadgeClass(
-                        getElementName(item.element)
-                      )}
-                    >
-                      {getElementName(item.element)}
-                    </span>
-
-                    <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-slate-700 text-white">
-                      {getWeaponTypeName(item.weaponType)}
-                    </span>
-                  </div>
-                  <span className="font-bold text-center">{item.name}</span>
-                </CardContent>
-              </Card>
-            </Link>
-          ))}
-        </div>
+    <div className="w-screen h-screen overflow-hidden">
+      <div className="absolute top-5 w-full z-99 text-center text-sm text-muted-foreground/50">
+        {`Total Characters: ${Object.keys(data.data.items).length}`}
+      </div>
+      <InfiniteMenu
+        // @ts-expect-error hehe
+        items={[...Object.values(data.data.items)]
+          .reverse()
+          .map((item: any) => ({
+            image: `https://gi.yatta.moe/assets/UI/${item.icon}.png`,
+            title: (
+              <div className="flex flex-col items-start justify-start">
+                <span>{item.name}</span>
+                <span className="text-xl  font-normal first-letter:uppercase lowercase ">
+                  {item.region}
+                </span>
+              </div>
+            ),
+            link: `/characters/${item.id}`,
+            description: (
+              <div className="flex flex-row gap-2 justify-center items-center">
+                <span
+                  className={elementBadgeClass(getElementName(item.element))}
+                >
+                  {getElementName(item.element)}
+                </span>
+                <span className={rankBadgeClass(item.rank)}>{item.rank}★</span>
+              </div>
+            ),
+          }))}
+      />
+      <div className="absolute bottom-5 w-full text-center text-sm text-muted-foreground/50">
+        made with shadcn and react bits
       </div>
     </div>
   );

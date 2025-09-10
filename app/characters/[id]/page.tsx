@@ -5,6 +5,8 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { avatarIconToGacha } from "@/lib/utils";
+import GlassSurface from "@/components/GlassSurface";
+import { MoveLeftIcon } from "lucide-react";
 
 export default function CharacterPage() {
   const params = useParams();
@@ -129,24 +131,54 @@ export default function CharacterPage() {
   };
 
   return (
-    <div className="m-auto w-full pb-5 px-1">
-      <Image
-        blurDataURL={`https://gi.yatta.moe/assets/UI/${avatarIconToGacha(
-          character.icon
-        )}.png`}
-        placeholder="blur"
-        src={`https://gi.yatta.moe/assets/UI/${avatarIconToGacha(
-          character.icon
-        )}.png`}
-        alt={character.name}
-        className="w-screen sticky -top-[50svh]   starting:scale-200 scale-100 duration-500 transition h-screen object-cover   rounded-b-2xl  -z-99 "
-        width={1920}
-        height={1080}
-        loading="eager"
-        priority={true}
-      />
+    <div className="m-auto w-full pb-5">
+      <GlassSurface
+        backgroundOpacity={0.5}
+        mixBlendMode="screen"
+        borderRadius={99}
+        blur={12}
+        borderWidth={12}
+        distortionScale={19}
+        saturation={1}
+        displace={2.5}
+        height={36}
+        className="sticky  top-2.5 left-0 h-fit m-5 -mt-12 mx-auto z-10"
+      >
+        <div
+          className="flex cursor-pointer  gap-2 text-sm m-auto items-center text-lg font-medium"
+          onClick={() => window.history.back()}
+        >
+          <MoveLeftIcon size={16} />
+          Go Back
+        </div>
+      </GlassSurface>
+      <div className="relative w-screen h-screen -z-10 ">
+        {/* Background Image: Blurred and slightly scaled up */}
+        <Image
+          src={`https://gi.yatta.moe/assets/UI/${avatarIconToGacha(
+            character.icon
+          )}.png`}
+          alt={`${character.name} blurred background`}
+          className="absolute inset-0 w-full h-full object-cover rounded-b-2xl blur saturate-200 starting:opacity-0 starting:scale-150 scale-100 opacity-100 transition duration-1000"
+          width={1920}
+          height={1080}
+          loading="eager"
+        />
 
-      <div className="max-w-5xl bg-card/75 backdrop-blur-md rounded-2xl backdrop-saturate-250 p-5 transition-all duration-1000  m-auto w-full starting:mt-0 -mt-[33svh] max-md:-mt-[60svh]">
+        {/* Foreground Image: Sharp and includes the original transition effects */}
+        <Image
+          src={`https://gi.yatta.moe/assets/UI/${avatarIconToGacha(
+            character.icon
+          )}.png`}
+          alt={character.name}
+          className="absolute inset-0 w-full h-full object-cover rounded-b-2xl starting:scale-200 scale-100 duration-500 transition"
+          width={1920}
+          height={1080}
+          loading="eager"
+        />
+      </div>
+
+      <div className="max-w-5xl bg-card/75 backdrop-blur-md rounded-2xl backdrop-saturate-250 p-5 transition-all duration-1000  m-auto w-full starting:mt-0 -mt-[33svh] max-md:-mt-[40svh]">
         <div className="flex flex-col  items-center justify-center gap-1 p-5">
           <Image
             src={`https://gi.yatta.moe/assets/UI/${character.icon}.png`}
