@@ -22,7 +22,7 @@ export default function HeaderSite() {
           <h1 className="text-4xl max-md:text-xl font-bold ">Genshin Impact</h1>
           <p className="text-muted-foreground">mabilisang code keme keme</p>
         </div>
-        <div>Made by Secret</div>
+        <div className="text-end">Made by Secret</div>
       </div>
     </Link>
   );
